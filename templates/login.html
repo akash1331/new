@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous" />
+    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@1,700&display=swap" rel="stylesheet">
+    <title>Login | ToDoList</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="display:grid;">
+        <div class="container-fluid">
+            <b class="navbar-brand" href="#">ToDoList</b>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+
+    <div class="container" style="padding: 0px;margin: 0px;position:relative;top: -25px;">
+        <p style="font-family: 'Cabin', sans-serif;font-size: 2.1em;position: relative;top: 35px;left: 80px;">Login...</p>
+        <form class="px-4 py-3" style="position: relative;display: grid;top: 0px;width: max-content;" method="post" action="#">
+            {% csrf_token %}
+            <div class="img" style="width: fit-content;position: relative;top: 335px;left: 30px;">
+                <a href="/accounts/google/login/?process=login">Login with Google</a>
+                <img src="/static/g1.png" alt="" style="height: 25px;width: 25px;width: max-content;">
+            </div>
+
+            <div class="image" style="position: relative;left: 70px;"><img src="static/clipart.png" alt width="72" height="60"></div>
+            
+            <div class="form-floating" style="top: 10px;width: max-content;">
+                <input type="username" class="form-control" id="username" name="username" placeholder="Username">
+                <label for="floatingInput">Username</label>
+            </div>
+            <div class="form-floating" style="top: 20px;width: max-content;">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="    position: relative;top: 30px;width: 203px;">Sign in</button>
+        </form>
+
+        <div class="dropdown-divider" style="    width: 216px;top: 20px;position: relative;left: 18px;"></div>
+        <a class="dropdown-item" href="/signup" style="position: relative;display: grid;left: 15px;top: 20px;width: max-content;background-color: cornsilk;">New around here? Sign up</a>
+    </div>
+
+
+    </div>
+</body>
+
+</html>
