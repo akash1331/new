@@ -128,3 +128,31 @@ class threadApi(APIView):
 
     def post(self):
         pass
+
+
+# # <----------updation starts----------------------------->
+# def update_entry(request,pk):
+#     if request.user.is_anonymous:
+#         return redirect("/login")
+#     else:
+#         update_entry = Task.objects.get(id=pk)
+#         form = EntryForm(request.POST or None,instance=update_entry)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('/entries')
+#         context = {'form':form,'update_entry':update_entry}
+#         return render(request,'update.html',context)
+# # <----------updation ends----------------------------->
+
+
+# # <----------deletion starts----------------------------->
+# def delete_entry(request,pk):
+#     if request.user.is_anonymous:
+#         return redirect("/login")
+#     else:
+#         delete_entry = diaryModel.objects.get(id=pk)
+#         if request.method == 'POST':
+#             delete_entry.delete()
+#             return redirect('/entries')
+#         return render(request,'delete.html')
+# # <----------deletion ends----------------------------->

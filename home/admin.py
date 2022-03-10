@@ -12,5 +12,6 @@ class TaskAdminSite(admin.ModelAdmin):
 
 admin.site.register(Task,TaskAdminSite)
 admin.site.register(threads)
+admin.site.site_header = 'ToDoList Admin'
 
 

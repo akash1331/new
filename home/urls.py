@@ -25,4 +25,6 @@ urlpatterns = [
     path('loggedout',views.logoutUser,name='loggedout'),
     path('signup',views.signup,name='signup'),
     path('registered',views.registered,name='registered'),
+    
+
 ]
