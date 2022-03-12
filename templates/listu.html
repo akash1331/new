@@ -17,7 +17,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" />
-    <title>Create List | ToDoList</title>
+    <title>Update List | ToDoList</title>
 
     <style>
         .grid-container {
@@ -61,42 +61,27 @@
         </div>
     </nav>
 
-    {% if success %}
+    {% comment %} {% if success %}
     <div class="alert alert-success alert-dismissible fade show " role="alert">
         <strong> New List Created!</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    {% endif %}
+    {% endif %} {% endcomment %}
+    
+    <center>
+        <h3 style="margin-top: 10px;">Update your list</h3>
+    </center>
 
     <form action="#" method="post">
         {% csrf_token %}
         <center style="margin-top: 15px;">
-            <input type="text" id="title" name="tile" placeholder="Create a List">
-            <button type="submit" class="btn btn-secondary">Create</button>
+            <input type="text" id="title" name="tile" placeholder="change here '{{list_obj}}'">
+            <button type="submit" class="btn btn-secondary">Update</button>
         </center>
     </form>
 
-    <center>
-        <h3 style="margin-top: 10px;">Your created Lists</h3>
-    </center>
 
-    {% for key,value in mydict.items %}
-    <span>
-        <div class="grid-container">
-            <br>
-            <div class="card" style="width: 18rem;;">
-                <div class="card-body">
-                    <div class="grid-item">
-                        <h6 class="card-subtitle mb-2 text-muted"><b>{{ key }}</b></h6>
-                        <p class="card-text">
-                            <a href="/update_list/{{ key.id }}" class="btn btn-sm btn-danger">Update</a>
-                            <a href="/delete_list/{{ key.id }}" class="btn btn-sm btn-secondary">Delete</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </span> {% endfor %}
+
 
 </body>
 

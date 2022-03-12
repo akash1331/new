@@ -26,6 +26,8 @@ urlpatterns = [
     path('signup',views.signup,name='signup'),
     path('registered',views.registered,name='registered'),
     path('update_task/<int:pk>',views.update_task,name = 'update_task'), #update task url
-    # path('delete_task/<int:pk>',views.delete_task,name = 'delete_task'), #delete task url
+    path('delete_task/<int:pk>',views.delete,name = 'delete_task'), #delete task url
+    path('update_list/<int:pk>',views.updatel,name = 'update_list'), #update list url
+    path('delete_list/<int:pk>',views.deletel,name = 'delete_list'), #delete list url
 
 ]

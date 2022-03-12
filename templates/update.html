@@ -17,7 +17,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" />
-    <title>Tasks | ToDoList</title>
+    <title>Update Task | ToDoList</title>
 
 </head>
 
@@ -52,18 +52,18 @@
         </div>
     </nav>
 
-    <h3>
+    {% comment %} <h3>
         <p style="width: fit-content;margin-left: 5px;">Welcome {{request.user}}!</p>
-    </h3>
+    </h3> {% endcomment %}
 
     <center>
-        <h3>Your tasks</h3>
+        <h3>Update your task</h3>
     </center>
 
     <center>
         <form action="#" method="post">
             {% csrf_token %}
-            <input type="text" id="desc" name="desc" placeholder="Add a Task">
+            <input type="text" id="desc" name="desc" placeholder="'{{update}}'. Update? ">
             <select name="thread" id="thread">
                     <option disabled="true" selected>Select</option>
                     {% for mykey,myvalue in mydict.items %}

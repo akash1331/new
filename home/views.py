@@ -1,3 +1,4 @@
+from threading import Thread
 from django.shortcuts import redirect, render
 from rest_framework import response
 from home.models import Task,threads
@@ -10,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from home.models import Task,threads
 from todoList.serializers import TaskSerializer, threadsSerializer
+
 
 
 def tasks(request):
@@ -36,6 +38,7 @@ def tasks(request):
         
     return render(request, 'tasks.html',context)
 
+
 def threadsa(request):
     allthread = threads.objects.all()
     datas = {}
@@ -53,10 +56,10 @@ def threadsa(request):
     context= {'mydict':datas}
     return render(request,'tasks.html',context)    
 
-# def thread(request):
-#     allthread=threads.objects.all()
-#     context = {'thread':allthread}
-#     return render(request,'tasks.html',context) 
+def thread(request):
+    allthread=threads.objects.all()
+    context = {'thread':allthread}
+    return render(request,'tasks.html',context) 
 
 def list(request):
     if request.user.is_anonymous:
@@ -75,6 +78,7 @@ def list(request):
             context={'thread':allthread}
             ins2=threads(Title=tiles)
             ins2.save()
+            redirect('/list')
         else:
             context = {'thread':allthread,'mydict':datas}
     return render(request,'list.html',context) 
@@ -130,34 +134,81 @@ class threadApi(APIView):
         pass
 
 
-# # <----------updation starts----------------------------->
+# # <----------task updation starts----------------------------->
 def update_task(request,pk):
     if request.user.is_anonymous:
         return redirect("/login")
     else:
+        datas = {}        
+        allthread = threads.objects.all()
+        for i in range(allthread.count()):
+            tile = Task.objects.filter(thread=allthread[i])
+            # print(tile)
+            datas[f'{allthread[i].Title}'] = tile 
+            
         update = Task.objects.get(id=pk)
         if request.method == "POST":
             desc = request.POST['desc']
             thread_input = request.POST['thread']
             # print(thread_input)
             thread_object = threads.objects.filter(Title = thread_input).first()
-            context={'update':update}
+            context={'update':update,'mydict':datas}
             ins = Task(taskDesc=desc,thread = thread_object)
             ins.save()
         else:
-            context = {'update':update}
+            context = {'update':update,'mydict':datas}
         return render(request,'update.html',context)
 # <----------updation ends----------------------------->
 
 
-# # <----------deletion starts----------------------------->
-# def delete_entry(request,pk):
-#     if request.user.is_anonymous:
-#         return redirect("/login")
-#     else:
-#         delete_entry = diaryModel.objects.get(id=pk)
-#         if request.method == 'POST':
-#             delete_entry.delete()
-#             return redirect('/entries')
-#         return render(request,'delete.html')
+# # <----------task deletion starts----------------------------->
+def delete(request,pk):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    else:
+        delete_task = Task.objects.get(id=pk)
+        if request.method == 'POST':
+            delete_task.delete()
+            return redirect('/tasks')
+        return render(request,'delete.html')
+# # <----------deletion ends----------------------------->
+
+
+# # <----------list updation starts----------------------------->
+def updatel(request,pk):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    else:
+        allthread=threads.objects.all()
+        datas = {}
+        for i in range(allthread.count()):
+            tile = Task.objects.filter(thread=allthread[i])
+            #print(tile)
+            datas[f'{allthread[i].Title}'] = tile 
+    
+        list_obj = threads.objects.get(id=pk)
+        if request.method =="POST":
+            context={'success': True}
+            tiles=request.POST['tile']
+            context={'thread':allthread,'list_obj':list_obj}
+            ins2=threads(Title=tiles)
+            ins2.save()
+            redirect('/list')
+        else:
+            context = {'thread':allthread,'mydict':datas}
+    return render(request,'listu.html',context)
+# # <----------list updation ends----------------------------->
+
+
+
+# # <----------list deletion starts----------------------------->
+def deletel(request,pk):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    else:
+        delete_list = threads.objects.get(id=pk)
+        if request.method == 'POST':
+            delete_list.delete()
+            return redirect('/list')
+        return render(request,'delete.html')
 # # <----------deletion ends----------------------------->

@@ -17,7 +17,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" />
-    <title>Create List | ToDoList</title>
+    <title>Delete | ToDoList</title>
 
     <style>
         .grid-container {
@@ -51,7 +51,7 @@
                     </li>
                 </ul>
             </div>
-            <!-- Default dropstart button -->
+
             <div class="btn-group dropstart">
                 <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Settings</button>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
@@ -61,43 +61,14 @@
         </div>
     </nav>
 
-    {% if success %}
-    <div class="alert alert-success alert-dismissible fade show " role="alert">
-        <strong> New List Created!</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="container-fluid">
+        <h5>Confirm to delete?</h5>
+        <form action="#" method="post">
+            {% csrf_token %}
+            <input class="btn btn-success" type="submit" name='confirm' value="Yes">
+            <a class="btn btn-warning" href="/tasks">Cancel</a>
+        </form>
     </div>
-    {% endif %}
-
-    <form action="#" method="post">
-        {% csrf_token %}
-        <center style="margin-top: 15px;">
-            <input type="text" id="title" name="tile" placeholder="Create a List">
-            <button type="submit" class="btn btn-secondary">Create</button>
-        </center>
-    </form>
-
-    <center>
-        <h3 style="margin-top: 10px;">Your created Lists</h3>
-    </center>
-
-    {% for key,value in mydict.items %}
-    <span>
-        <div class="grid-container">
-            <br>
-            <div class="card" style="width: 18rem;;">
-                <div class="card-body">
-                    <div class="grid-item">
-                        <h6 class="card-subtitle mb-2 text-muted"><b>{{ key }}</b></h6>
-                        <p class="card-text">
-                            <a href="/update_list/{{ key.id }}" class="btn btn-sm btn-danger">Update</a>
-                            <a href="/delete_list/{{ key.id }}" class="btn btn-sm btn-secondary">Delete</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </span> {% endfor %}
-
 </body>
 
 </html>
