@@ -131,18 +131,23 @@ class threadApi(APIView):
 
 
 # # <----------updation starts----------------------------->
-# def update_entry(request,pk):
-#     if request.user.is_anonymous:
-#         return redirect("/login")
-#     else:
-#         update_entry = Task.objects.get(id=pk)
-#         form = EntryForm(request.POST or None,instance=update_entry)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('/entries')
-#         context = {'form':form,'update_entry':update_entry}
-#         return render(request,'update.html',context)
-# # <----------updation ends----------------------------->
+def update_task(request,pk):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    else:
+        update = Task.objects.get(id=pk)
+        if request.method == "POST":
+            desc = request.POST['desc']
+            thread_input = request.POST['thread']
+            # print(thread_input)
+            thread_object = threads.objects.filter(Title = thread_input).first()
+            context={'update':update}
+            ins = Task(taskDesc=desc,thread = thread_object)
+            ins.save()
+        else:
+            context = {'update':update}
+        return render(request,'update.html',context)
+# <----------updation ends----------------------------->
 
 
 # # <----------deletion starts----------------------------->

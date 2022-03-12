@@ -25,6 +25,7 @@ urlpatterns = [
     path('loggedout',views.logoutUser,name='loggedout'),
     path('signup',views.signup,name='signup'),
     path('registered',views.registered,name='registered'),
-    
+    path('update_task/<int:pk>',views.update_task,name = 'update_task'), #update task url
+    # path('delete_task/<int:pk>',views.delete_task,name = 'delete_task'), #delete task url
 
 ]
