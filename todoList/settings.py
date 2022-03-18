@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['http://127.0.0.1:8000/','http://todolistdo.herokuapp.com/']
 # Application definition
 
 INSTALLED_APPS = [
-    'home.apps.SuitConfig',
+    # 'home.apps.SuitConfig',
     'home',
     'django.contrib.admin',
     'django.contrib.auth',

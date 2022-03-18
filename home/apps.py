@@ -6,5 +6,5 @@ class HomeConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'home'
 
-class SuitConfig(DjangoSuitConfig):
-    layout = 'vertical'
+# class SuitConfig(DjangoSuitConfig):
+#     layout = 'vertical'
