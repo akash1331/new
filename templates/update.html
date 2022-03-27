@@ -17,16 +17,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" />
-    <title>Tasks | ToDoList</title>
-
-    <style>
-        .grid-container {
-            display: inline-block;
-            margin-left: 15px;
-            margin-right: 30px;
-            margin-bottom: 10px;
-        }
-    </style>
+    <title>Update Task | ToDoList</title>
 
 </head>
 
@@ -61,49 +52,29 @@
         </div>
     </nav>
 
+    {% comment %}
     <h3>
         <p style="width: fit-content;margin-left: 5px;">Welcome {{request.user}}!</p>
-    </h3>
+    </h3> {% endcomment %}
 
     <center>
-        <h3>Your tasks</h3>
+        <h3>Update your task</h3>
     </center>
 
     <center>
         <form action="#" method="post">
             {% csrf_token %}
-            <input type="text" id="desc" name="desc" placeholder="Add a Task">
+            <input type="text" id="desc" name="desc" placeholder="'{{update}}'. Update? ">
             <select name="thread" id="thread">
                     <option disabled="true" selected>Select</option>
                     {% for mykey,myvalue in mydict.items %}
                     <option>{{mykey}}</option>
                     {% endfor %}
+                    <option >{{mykey}}</option>
                 </select>
             <input type="submit" value="Save">
         </form>
     </center>
-
-    {% for mykey,myvalue in mydict.items %}
-    <span>
-        <div class="grid-container">
-            <br>
-            <div class="card" style="width: 18rem;;">
-                <div class="card-body">
-                    <div class="grid-item">
-                        <h6 class="card-subtitle mb-2 text-muted"><b>{{ mykey }}</b></h6>
-                        {% for s in myvalue %}
-                        <p class="card-text">{{s}}
-                            <p>{{s.time}}</p>
-                            <a href="/update_task/{{s.id}}" class="btn btn-sm btn-danger">Update</a>
-                            {% comment %} <a href="{% url 'update_task' myvalue.id %}" class="btn btn-sm btn-danger">Update</a> {% endcomment %}
-                            <a href="/delete_task/{{s.id}}" class="btn btn-sm btn-secondary">Delete</a>
-                        </p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </span> {% endfor %}
 
 </body>
 

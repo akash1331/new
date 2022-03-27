@@ -17,7 +17,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" />
-    <title>Tasks | ToDoList</title>
+    <title>Update List | ToDoList</title>
 
     <style>
         .grid-container {
@@ -51,7 +51,7 @@
                     </li>
                 </ul>
             </div>
-
+            <!-- Default dropstart button -->
             <div class="btn-group dropstart">
                 <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Settings</button>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
@@ -61,49 +61,27 @@
         </div>
     </nav>
 
-    <h3>
-        <p style="width: fit-content;margin-left: 5px;">Welcome {{request.user}}!</p>
-    </h3>
-
+    {% comment %} {% if success %}
+    <div class="alert alert-success alert-dismissible fade show " role="alert">
+        <strong> New List Created!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %} {% endcomment %}
+    
     <center>
-        <h3>Your tasks</h3>
+        <h3 style="margin-top: 10px;">Update your list</h3>
     </center>
 
-    <center>
-        <form action="#" method="post">
-            {% csrf_token %}
-            <input type="text" id="desc" name="desc" placeholder="Add a Task">
-            <select name="thread" id="thread">
-                    <option disabled="true" selected>Select</option>
-                    {% for mykey,myvalue in mydict.items %}
-                    <option>{{mykey}}</option>
-                    {% endfor %}
-                </select>
-            <input type="submit" value="Save">
-        </form>
-    </center>
+    <form action="#" method="post">
+        {% csrf_token %}
+        <center style="margin-top: 15px;">
+            <input type="text" id="title" name="tile" placeholder="change here '{{list_obj}}'">
+            <button type="submit" class="btn btn-secondary">Update</button>
+        </center>
+    </form>
 
-    {% for mykey,myvalue in mydict.items %}
-    <span>
-        <div class="grid-container">
-            <br>
-            <div class="card" style="width: 18rem;;">
-                <div class="card-body">
-                    <div class="grid-item">
-                        <h6 class="card-subtitle mb-2 text-muted"><b>{{ mykey }}</b></h6>
-                        {% for s in myvalue %}
-                        <p class="card-text">{{s}}
-                            <p>{{s.time}}</p>
-                            <a href="/update_task/{{s.id}}" class="btn btn-sm btn-danger">Update</a>
-                            {% comment %} <a href="{% url 'update_task' myvalue.id %}" class="btn btn-sm btn-danger">Update</a> {% endcomment %}
-                            <a href="/delete_task/{{s.id}}" class="btn btn-sm btn-secondary">Delete</a>
-                        </p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </span> {% endfor %}
+
+
 
 </body>
 

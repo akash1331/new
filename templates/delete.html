@@ -17,7 +17,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" />
-    <title>Tasks | ToDoList</title>
+    <title>Delete | ToDoList</title>
 
     <style>
         .grid-container {
@@ -61,50 +61,14 @@
         </div>
     </nav>
 
-    <h3>
-        <p style="width: fit-content;margin-left: 5px;">Welcome {{request.user}}!</p>
-    </h3>
-
-    <center>
-        <h3>Your tasks</h3>
-    </center>
-
-    <center>
+    <div class="container-fluid">
+        <h5>Confirm to delete?</h5>
         <form action="#" method="post">
             {% csrf_token %}
-            <input type="text" id="desc" name="desc" placeholder="Add a Task">
-            <select name="thread" id="thread">
-                    <option disabled="true" selected>Select</option>
-                    {% for mykey,myvalue in mydict.items %}
-                    <option>{{mykey}}</option>
-                    {% endfor %}
-                </select>
-            <input type="submit" value="Save">
+            <input class="btn btn-success" type="submit" name='confirm' value="Yes">
+            <a class="btn btn-warning" href="/tasks">Cancel</a>
         </form>
-    </center>
-
-    {% for mykey,myvalue in mydict.items %}
-    <span>
-        <div class="grid-container">
-            <br>
-            <div class="card" style="width: 18rem;;">
-                <div class="card-body">
-                    <div class="grid-item">
-                        <h6 class="card-subtitle mb-2 text-muted"><b>{{ mykey }}</b></h6>
-                        {% for s in myvalue %}
-                        <p class="card-text">{{s}}
-                            <p>{{s.time}}</p>
-                            <a href="/update_task/{{s.id}}" class="btn btn-sm btn-danger">Update</a>
-                            {% comment %} <a href="{% url 'update_task' myvalue.id %}" class="btn btn-sm btn-danger">Update</a> {% endcomment %}
-                            <a href="/delete_task/{{s.id}}" class="btn btn-sm btn-secondary">Delete</a>
-                        </p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </span> {% endfor %}
-
+    </div>
 </body>
 
 </html>
