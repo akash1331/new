@@ -1,0 +1,30 @@
+"""todolist URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/3.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.todoapp, name='todoapp')
+Class-based views
+    1. Add an import:  from other_app.views import todoapp
+    2. Add a URL to urlpatterns:  path('', todoapp.as_view(), name='todoapp')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+from django.conf.urls import url
+from todoapp import views
+from rest_framework.urlpatterns import format_suffix_patterns
+
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',include('todoapp.urls')),
+    path('accounts/', include('allauth.urls')),
+    url(r'^apitask/',views.TaskApi.as_view()),
+    url(r'^apithread/',views.threadApi.as_view())
+]
