@@ -110,11 +110,15 @@
                     <div class="grid-item">
                         <h6 class="card-subtitle mb-2 text-muted"><b>{{ mykey }}</b></h6>
                         {% for s in myvalue %}
-                        <p class="card-text">{{s}}
+                        <p class="card-text">
+                            <ol>
+                                {{s}}
+                            </ol> 
                             <p>{{s.time}}</p>
                             <a href="/update_task/{{s.id}}" class="btn btn-sm btn-danger">Update</a>
                             {% comment %} <a href="{% url 'update_task' myvalue.id %}" class="btn btn-sm btn-danger">Update</a> {% endcomment %}
                             <a href="/delete_task/{{s.id}}" class="btn btn-sm btn-secondary">Delete</a>
+                            <hr style="width:100%;text-align:left;margin-left:0">
                         </p>
                         {% endfor %}
                     </div>
